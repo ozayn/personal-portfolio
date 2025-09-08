@@ -76,57 +76,6 @@ export function serveStatic(app: Express) {
   const cwdPath = path.resolve(process.cwd(), "dist", "public");
   const cwdClientPath = path.resolve(process.cwd(), "client", "public");
 
-  // Log paths for debugging
-  console.log("Static file paths:");
-  console.log("  distPath:", distPath, "exists:", fs.existsSync(distPath));
-  console.log("  clientPath:", clientPath, "exists:", fs.existsSync(clientPath));
-  console.log("  cwdPath:", cwdPath, "exists:", fs.existsSync(cwdPath));
-  console.log("  cwdClientPath:", cwdClientPath, "exists:", fs.existsSync(cwdClientPath));
-  console.log("  process.cwd():", process.cwd());
-  console.log("  __dirname:", __dirname);
-  
-  // List all files in the current working directory
-  try {
-    const cwdFiles = fs.readdirSync(process.cwd());
-    console.log("  Files in cwd:", cwdFiles);
-  } catch (e) {
-    console.log("  Error reading cwd:", e.message);
-  }
-  
-  // List all files in the dist directory if it exists
-  try {
-    const distDir = path.resolve(process.cwd(), "dist");
-    if (fs.existsSync(distDir)) {
-      const distFiles = fs.readdirSync(distDir);
-      console.log("  Files in dist:", distFiles);
-      
-      // Check if dist/public exists
-      const distPublicDir = path.resolve(distDir, "public");
-      if (fs.existsSync(distPublicDir)) {
-        const distPublicFiles = fs.readdirSync(distPublicDir);
-        console.log("  Files in dist/public:", distPublicFiles);
-      } else {
-        console.log("  dist/public directory does not exist");
-      }
-    } else {
-      console.log("  dist directory does not exist");
-    }
-  } catch (e) {
-    console.log("  Error reading dist:", e.message);
-  }
-  
-  // Check if dist/public/images exists
-  if (fs.existsSync(distPath)) {
-    const imagesPath = path.resolve(distPath, "images");
-    const photosPath = path.resolve(distPath, "photos");
-    console.log("  dist/images exists:", fs.existsSync(imagesPath));
-    console.log("  dist/photos exists:", fs.existsSync(photosPath));
-    if (fs.existsSync(imagesPath)) {
-      const imageFiles = fs.readdirSync(imagesPath);
-      console.log("  dist/images files:", imageFiles.slice(0, 3), "...");
-    }
-  }
-
   // Try multiple paths in order of preference
   const pathsToTry = [
     { path: distPath, name: "dist/public" },
@@ -139,31 +88,16 @@ export function serveStatic(app: Express) {
   for (const { path: tryPath, name } of pathsToTry) {
     if (fs.existsSync(tryPath)) {
       staticPath = tryPath;
-      console.log(`Using static path: ${name} (${tryPath})`);
       break;
     }
   }
 
   if (staticPath) {
-    console.log("Setting up static file serving from:", staticPath);
     app.use(express.static(staticPath));
-    
-    // Add a test route to check if images are accessible
-    app.get("/test-image", (_req, res) => {
-      const testImagePath = path.resolve(staticPath, "images", "optimized_1-2mb_DSC02830_1751747402944.JPG");
-      console.log("Testing image path:", testImagePath, "exists:", fs.existsSync(testImagePath));
-      if (fs.existsSync(testImagePath)) {
-        res.sendFile(testImagePath);
-      } else {
-        res.status(404).send("Image not found");
-      }
-    });
-    
     app.use("*", (_req, res) => {
       res.sendFile(path.resolve(staticPath, "index.html"));
     });
   } else {
-    console.log("No static path found, serving fallback");
     // If none exists, serve a simple fallback
     app.use("*", (_req, res) => {
       res.status(200).send(`
@@ -173,7 +107,6 @@ export function serveStatic(app: Express) {
           <body>
             <h1>Portfolio Loading...</h1>
             <p>Static files not found. Please check the build process.</p>
-            <p>Debug info: distPath=${distPath}, clientPath=${clientPath}</p>
           </body>
         </html>
       `);
