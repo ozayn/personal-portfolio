@@ -16,8 +16,17 @@ npm install
 ### 2. Set Up Environment Variables
 Create a `.env` file in the project root with:
 ```bash
+# Database
 DATABASE_URL=your_neon_connection_string_here
+
+# Session Management
+SESSION_SECRET=your-super-secret-session-key-here
+
+# OpenAI (optional - for AI features)
 OPENAI_API_KEY=your_openai_api_key_here
+
+# Environment
+NODE_ENV=development
 ```
 
 ### 3. Set Up Database Schema
@@ -66,11 +75,11 @@ Open your browser and go to: **http://localhost:3000**
 
 ### Required
 - `DATABASE_URL` - Neon PostgreSQL connection string
+- `SESSION_SECRET` - Secret key for session management
 
 ### Optional
 - `OPENAI_API_KEY` - For AI-powered search features
-- `REPLIT_DOMAINS` - For authentication (production only)
-- `REPL_ID` - For authentication (production only)
+- `NODE_ENV` - Environment (development/production)
 
 ## Database Setup
 
@@ -125,8 +134,8 @@ If you get "ENOTSUP" errors:
 - File uploads and image optimization
 
 ⚠️ **Disabled for Local Development:**
-- User authentication (Replit auth)
-- Production security features
+- Production security features (HTTPS, secure cookies)
+- Production session store (uses memory store locally)
 
 ## Development Tips
 
