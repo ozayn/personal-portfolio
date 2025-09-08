@@ -84,6 +84,18 @@ export function serveStatic(app: Express) {
   console.log("  cwdClientPath:", cwdClientPath, "exists:", fs.existsSync(cwdClientPath));
   console.log("  process.cwd():", process.cwd());
   console.log("  __dirname:", __dirname);
+  
+  // Check if dist/public/images exists
+  if (fs.existsSync(distPath)) {
+    const imagesPath = path.resolve(distPath, "images");
+    const photosPath = path.resolve(distPath, "photos");
+    console.log("  dist/images exists:", fs.existsSync(imagesPath));
+    console.log("  dist/photos exists:", fs.existsSync(photosPath));
+    if (fs.existsSync(imagesPath)) {
+      const imageFiles = fs.readdirSync(imagesPath);
+      console.log("  dist/images files:", imageFiles.slice(0, 3), "...");
+    }
+  }
 
   // Try multiple paths in order of preference
   const pathsToTry = [
