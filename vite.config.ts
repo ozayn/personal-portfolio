@@ -22,6 +22,10 @@ export default defineConfig({
     emptyOutDir: true,
     // Ensure static files are copied
     copyPublicDir: true,
+    rollupOptions: {
+      // Ensure all files are included
+      external: [],
+    },
   },
   publicDir: path.resolve(__dirname, "client", "public"),
   server: {
