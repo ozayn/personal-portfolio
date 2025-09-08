@@ -99,6 +99,15 @@ export function serveStatic(app: Express) {
     if (fs.existsSync(distDir)) {
       const distFiles = fs.readdirSync(distDir);
       console.log("  Files in dist:", distFiles);
+      
+      // Check if dist/public exists
+      const distPublicDir = path.resolve(distDir, "public");
+      if (fs.existsSync(distPublicDir)) {
+        const distPublicFiles = fs.readdirSync(distPublicDir);
+        console.log("  Files in dist/public:", distPublicFiles);
+      } else {
+        console.log("  dist/public directory does not exist");
+      }
     } else {
       console.log("  dist directory does not exist");
     }
