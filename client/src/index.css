@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 99%);
+  --foreground: hsl(0, 0%, 15%);
+  --muted: hsl(0, 0%, 96%);
+  --muted-foreground: hsl(0, 0%, 50%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(0, 0%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(0, 0%, 15%);
+  --border: hsl(0, 0%, 90%);
+  --input: hsl(0, 0%, 94%);
+  --primary: hsl(0, 0%, 25%);
+  --primary-foreground: hsl(0, 0%, 98%);
+  --secondary: hsl(24, 85%, 60%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(24, 70%, 65%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(0, 0%, 70%);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(31, 23%, 20%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(207, 90%, 54%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(43, 100%, 48%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(0, 0%, 25%) 0%, hsl(0, 0%, 35%) 100%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.gallery-item {
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-4px);
+}
+
+.lightbox-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+/* Image optimization for better loading performance */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  image-rendering: auto;
+}
+
+/* Progressive image loading */
+img[loading="lazy"] {
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Reduce memory usage for large images */
+.photo-card img,
+.category-tile img,
+.event-tile img {
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
