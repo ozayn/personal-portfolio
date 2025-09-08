@@ -24,6 +24,7 @@ export default function Navigation({ activeSection }: NavigationProps) {
   const navItems = [
     { id: 'professional', label: 'Professional', isLink: false, href: '' },
     { id: 'photography', label: 'Photography', isLink: false, href: '' },
+    { id: 'contact', label: 'Contact', isLink: false, href: '' },
   ];
 
   return (

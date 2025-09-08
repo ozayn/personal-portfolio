@@ -2,6 +2,7 @@ import Navigation from "@/components/navigation";
 import HeroSection from "@/components/hero-section";
 import ProfessionalSection from "@/components/professional-section";
 import PhotographySection from "@/components/photography-section";
+import ContactSection from "@/components/contact-section";
 import LightboxModal from "@/components/lightbox-modal";
 import { useScrollSpy } from "@/hooks/use-scroll-spy";
 import { useState } from "react";
@@ -13,7 +14,7 @@ export default function Home() {
     category: string;
   } | null>(null);
 
-  const activeSection = useScrollSpy(['hero', 'professional', 'photography']);
+  const activeSection = useScrollSpy(['hero', 'professional', 'photography', 'contact']);
 
   const openLightbox = (image: { src: string; title: string; category: string }) => {
     setLightboxImage(image);
@@ -31,6 +32,7 @@ export default function Home() {
         <HeroSection />
         <ProfessionalSection />
         <PhotographySection onImageClick={openLightbox} />
+        <ContactSection />
       </main>
 
       <footer className="bg-gray-900 text-white py-8">
