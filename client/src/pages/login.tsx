@@ -48,7 +48,7 @@ export default function LoginPage() {
               onClick={() => window.location.href = "/api/login"}
             >
               <User className="mr-2 h-4 w-4" />
-              Sign in with Replit
+              Sign in
             </Button>
             <div className="text-center">
               <Link href="/">

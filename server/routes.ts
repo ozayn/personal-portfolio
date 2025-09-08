@@ -41,19 +41,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', async (req: any, res) => {
     try {
-      console.log("Auth endpoint called, REPLIT_DOMAINS:", process.env.REPLIT_DOMAINS);
-      console.log("Auth endpoint called, REPL_ID:", process.env.REPL_ID);
-      console.log("Session authenticated:", req.session.isAuthenticated);
-      
-      // For local development when Replit auth is disabled, or when no session exists
-      if (!process.env.REPLIT_DOMAINS || !process.env.REPL_ID || !req.session.isAuthenticated) {
-        console.log("Returning null for unauthenticated user");
-        return res.json(null);
-      }
-      
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
+      // For public portfolio access, always return null (no authentication required)
+      return res.json(null);
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
