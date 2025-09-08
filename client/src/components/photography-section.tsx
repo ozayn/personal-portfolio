@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { photographyCategories, photographyImages } from "@/data/portfolio-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,7 @@ export default function PhotographySection({ onImageClick }: PhotographySectionP
   const [aiKeywords, setAiKeywords] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [searchIntent, setSearchIntent] = useState("");
+  const searchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Fetch uploaded photos from database
   const { data: dbPhotos = [] } = useQuery({
