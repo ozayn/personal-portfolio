@@ -85,6 +85,27 @@ export function serveStatic(app: Express) {
   console.log("  process.cwd():", process.cwd());
   console.log("  __dirname:", __dirname);
   
+  // List all files in the current working directory
+  try {
+    const cwdFiles = fs.readdirSync(process.cwd());
+    console.log("  Files in cwd:", cwdFiles);
+  } catch (e) {
+    console.log("  Error reading cwd:", e.message);
+  }
+  
+  // List all files in the dist directory if it exists
+  try {
+    const distDir = path.resolve(process.cwd(), "dist");
+    if (fs.existsSync(distDir)) {
+      const distFiles = fs.readdirSync(distDir);
+      console.log("  Files in dist:", distFiles);
+    } else {
+      console.log("  dist directory does not exist");
+    }
+  } catch (e) {
+    console.log("  Error reading dist:", e.message);
+  }
+  
   // Check if dist/public/images exists
   if (fs.existsSync(distPath)) {
     const imagesPath = path.resolve(distPath, "images");
