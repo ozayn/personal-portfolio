@@ -73,20 +73,43 @@ export async function setupVite(app: Express, server: Server) {
 export function serveStatic(app: Express) {
   const distPath = path.resolve(__dirname, "..", "dist", "public");
   const clientPath = path.resolve(__dirname, "..", "client", "public");
+  const cwdPath = path.resolve(process.cwd(), "dist", "public");
+  const cwdClientPath = path.resolve(process.cwd(), "client", "public");
 
-  // Try to serve from dist/public first, fallback to client/public
-  if (fs.existsSync(distPath)) {
-    app.use(express.static(distPath));
+  // Log paths for debugging
+  console.log("Static file paths:");
+  console.log("  distPath:", distPath, "exists:", fs.existsSync(distPath));
+  console.log("  clientPath:", clientPath, "exists:", fs.existsSync(clientPath));
+  console.log("  cwdPath:", cwdPath, "exists:", fs.existsSync(cwdPath));
+  console.log("  cwdClientPath:", cwdClientPath, "exists:", fs.existsSync(cwdClientPath));
+  console.log("  process.cwd():", process.cwd());
+  console.log("  __dirname:", __dirname);
+
+  // Try multiple paths in order of preference
+  const pathsToTry = [
+    { path: distPath, name: "dist/public" },
+    { path: cwdPath, name: "cwd/dist/public" },
+    { path: clientPath, name: "client/public" },
+    { path: cwdClientPath, name: "cwd/client/public" }
+  ];
+
+  let staticPath = null;
+  for (const { path: tryPath, name } of pathsToTry) {
+    if (fs.existsSync(tryPath)) {
+      staticPath = tryPath;
+      console.log(`Using static path: ${name} (${tryPath})`);
+      break;
+    }
+  }
+
+  if (staticPath) {
+    app.use(express.static(staticPath));
     app.use("*", (_req, res) => {
-      res.sendFile(path.resolve(distPath, "index.html"));
-    });
-  } else if (fs.existsSync(clientPath)) {
-    app.use(express.static(clientPath));
-    app.use("*", (_req, res) => {
-      res.sendFile(path.resolve(clientPath, "index.html"));
+      res.sendFile(path.resolve(staticPath, "index.html"));
     });
   } else {
-    // If neither exists, serve a simple fallback
+    console.log("No static path found, serving fallback");
+    // If none exists, serve a simple fallback
     app.use("*", (_req, res) => {
       res.status(200).send(`
         <!DOCTYPE html>
@@ -95,6 +118,7 @@ export function serveStatic(app: Express) {
           <body>
             <h1>Portfolio Loading...</h1>
             <p>Static files not found. Please check the build process.</p>
+            <p>Debug info: distPath=${distPath}, clientPath=${clientPath}</p>
           </body>
         </html>
       `);
