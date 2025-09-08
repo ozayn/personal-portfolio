@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import { Mail, Phone, Github } from "lucide-react";
+import { Mail, Github } from "lucide-react";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -67,10 +67,6 @@ export default function ContactSection() {
               <div className="flex items-center">
                 <Mail className="text-secondary text-xl mr-4" />
                 <span>{personalInfo.email}</span>
-              </div>
-              <div className="flex items-center">
-                <Phone className="text-secondary text-xl mr-4" />
-                <span>{personalInfo.phone}</span>
               </div>
               <div className="flex items-center">
                 <Github className="text-secondary text-xl mr-4" />
