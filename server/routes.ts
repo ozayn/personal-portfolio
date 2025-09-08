@@ -8,6 +8,11 @@ import { setupAuth, isAuthenticated } from "./auth";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+
+// Extend global type to include rateLimitStore
+declare global {
+  var rateLimitStore: Map<string, number[]> | undefined;
+}
 import sharp from "sharp";
 
 // Initialize OpenAI (only if API key is provided)

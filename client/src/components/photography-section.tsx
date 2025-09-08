@@ -39,10 +39,10 @@ export default function PhotographySection({ onImageClick }: PhotographySectionP
   });
 
   // Combine static photos with database photos
-  const allPhotos = [...photographyImages, ...dbPhotos.map((photo: any) => ({
+  const allPhotos = [...photographyImages, ...(Array.isArray(dbPhotos) ? dbPhotos.map((photo: any) => ({
     ...photo,
     tags: (photo.tags || []).filter((tag: string) => tag.trim() !== "")
-  }))];
+  })) : [])];
 
   // Debug: Log photos for troubleshooting
   // console.log("Static photos count:", photographyImages.length);
