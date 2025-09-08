@@ -114,9 +114,15 @@ The app uses these tables:
 - Kill existing processes: `pkill -f "tsx server/index.ts"`
 - Or change port in `server/index.ts`
 
-**4. Authentication Errors**
-- Authentication is disabled for local development
-- These errors are normal and can be ignored locally
+**4. Authentication Errors (401)**
+- Portfolio is public - no authentication required
+- System returns `null` for unauthenticated users
+- This is expected behavior, not an error
+
+**5. OpenAI API Errors (429)**
+- This is expected when quota is exceeded
+- System automatically falls back to keyword search
+- Not a breaking error - portfolio still functions
 
 ### Server Binding Issues
 If you get "ENOTSUP" errors:
@@ -136,6 +142,14 @@ If you get "ENOTSUP" errors:
 ⚠️ **Disabled for Local Development:**
 - Production security features (HTTPS, secure cookies)
 - Production session store (uses memory store locally)
+- Complex authentication (public portfolio access)
+
+## Recent Updates (2025)
+- ✅ Removed all Replit dependencies and references
+- ✅ Simplified authentication system
+- ✅ Fixed all TypeScript compilation errors
+- ✅ Updated copyright year to 2025
+- ✅ Streamlined contact section (information only)
 
 ## Development Tips
 
