@@ -34,20 +34,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
 
   // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  app.get('/api/auth/user', async (req: any, res) => {
     try {
       console.log("Auth endpoint called, REPLIT_DOMAINS:", process.env.REPLIT_DOMAINS);
       console.log("Auth endpoint called, REPL_ID:", process.env.REPL_ID);
+      console.log("Session authenticated:", req.session.isAuthenticated);
       
-      // For local development when Replit auth is disabled
-      if (!process.env.REPLIT_DOMAINS || !process.env.REPL_ID) {
-        console.log("Returning mock user for local development");
-        return res.json({ 
-          id: 'local-dev-user',
-          email: 'dev@localhost',
-          firstName: 'Local',
-          lastName: 'Developer'
-        });
+      // For local development when Replit auth is disabled, or when no session exists
+      if (!process.env.REPLIT_DOMAINS || !process.env.REPL_ID || !req.session.isAuthenticated) {
+        console.log("Returning null for unauthenticated user");
+        return res.json(null);
       }
       
       const userId = req.user.claims.sub;
