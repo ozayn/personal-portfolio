@@ -20,7 +20,10 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    // Ensure static files are copied
+    copyPublicDir: true,
   },
+  publicDir: path.resolve(__dirname, "client", "public"),
   server: {
     fs: {
       strict: true,
