@@ -239,6 +239,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Add rate limiting protection - simple in-memory rate limiter
+      const clientIp = req.ip || req.connection.remoteAddress || 'unknown';
+      const now = Date.now();
+      const windowMs = 60000; // 1 minute window
+      const maxRequests = 10; // Max 10 requests per minute per IP
+      
+      // Simple rate limiting (in production, use Redis or similar)
+      if (!global.rateLimitStore) {
+        global.rateLimitStore = new Map();
+      }
+      
+      const key = `search-analyze:${clientIp}`;
+      const requests = global.rateLimitStore.get(key) || [];
+      const validRequests = requests.filter((time: number) => now - time < windowMs);
+      
+      if (validRequests.length >= maxRequests) {
+        console.log(`Rate limit exceeded for IP: ${clientIp}`);
+        return res.status(429).json({ 
+          error: "Rate limit exceeded", 
+          fallback: true,
+          message: "Too many requests, using smart keyword search instead"
+        });
+      }
+      
+      validRequests.push(now);
+      global.rateLimitStore.set(key, validRequests);
+
       // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
       const completion = await openai.chat.completions.create({
         model: "gpt-4o",

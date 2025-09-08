@@ -82,7 +82,7 @@ export default function PhotographySection({ onImageClick }: PhotographySectionP
       setAiKeywords(analysis.keywords || []);
       setSearchIntent(analysis.intent || "");
     } catch (error) {
-      console.log("AI search unavailable, using smart keyword fallback");
+      console.log("AI search unavailable, using smart keyword fallback", error);
       // Fallback to smart keyword system
       const smartKeywords = getSmartKeywords(query);
       setAiKeywords(smartKeywords);
@@ -92,16 +92,19 @@ export default function PhotographySection({ onImageClick }: PhotographySectionP
     }
   }, []);
 
-  // Debounced search analysis
+  // Debounced search analysis with longer delay to prevent rate limiting
   const handleSearchChange = useCallback((value: string) => {
     setSearchTerm(value);
     
     // Clear previous timeout
-    const timeoutId = setTimeout(() => {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+    
+    // Set new timeout for debounced search with longer delay
+    searchTimeoutRef.current = setTimeout(() => {
       analyzeSearch(value);
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
+    }, 1000); // 1 second delay to prevent rate limiting
   }, [analyzeSearch]);
 
   // Smart keyword mapping for better search results
