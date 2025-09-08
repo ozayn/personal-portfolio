@@ -115,7 +115,20 @@ export function serveStatic(app: Express) {
   }
 
   if (staticPath) {
+    console.log("Setting up static file serving from:", staticPath);
     app.use(express.static(staticPath));
+    
+    // Add a test route to check if images are accessible
+    app.get("/test-image", (_req, res) => {
+      const testImagePath = path.resolve(staticPath, "images", "optimized_1-2mb_DSC02830_1751747402944.JPG");
+      console.log("Testing image path:", testImagePath, "exists:", fs.existsSync(testImagePath));
+      if (fs.existsSync(testImagePath)) {
+        res.sendFile(testImagePath);
+      } else {
+        res.status(404).send("Image not found");
+      }
+    });
+    
     app.use("*", (_req, res) => {
       res.sendFile(path.resolve(staticPath, "index.html"));
     });
