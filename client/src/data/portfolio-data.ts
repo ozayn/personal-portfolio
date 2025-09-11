@@ -4,7 +4,7 @@ export const personalInfo = {
   email: "azin.faghihi@gmail.com",
   github: "https://www.github.com/ozayn",
   linkedin: "https://www.linkedin.com/in/azin-faghihi",
-  medium: "https://medium.com/@azin.faghihi",
+  medium: "https://medium.com/@ozayn",
   website: "ozayn.github.io",
   location: "Washington, DC",
   about: "Data Scientist specialized in human behavior analytics, data visualization, and complex dataset analysis. Background in Mechanical and Software Engineering provides structured and innovative problem-solving approaches."
