@@ -58,7 +58,7 @@ npm run build
 npm start
 ```
 
-The application will be available at `http://localhost:3000`
+The application will be available at `http://localhost:5002`
 
 ## Deployment to Railway
 
@@ -133,7 +133,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 **Solution**: Updated `server/index.ts`:
 ```javascript
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5002;
 const host = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
 ```
 
@@ -223,17 +223,17 @@ Railway will provide DNS records to add to your domain provider:
 ## Troubleshooting
 
 ### Common Issues
-1. **Port conflicts**: Ensure no other services are using port 3000
+1. **Port conflicts**: Ensure no other services are using port 5002
 2. **Static files not loading**: Check that `client/public` is committed to git
 3. **Database connection errors**: Verify `DATABASE_URL` is correct
 4. **Build failures**: Check that all dependencies are in `package.json`
 
 ### Debugging Commands
 ```bash
-# Check what's running on port 3000
-lsof -i :3000
+# Check what's running on port 5002
+lsof -i :5002
 
-# Kill processes on port 3000
+# Kill processes on port 5002
 pkill -f "tsx server/index.ts"
 
 # Check git status

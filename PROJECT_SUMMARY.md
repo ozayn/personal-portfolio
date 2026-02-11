@@ -43,7 +43,7 @@ npm install
 # Start development server
 npm run dev
 
-# Access at: http://localhost:3000
+# Access at: http://localhost:5002
 ```
 
 ### **Production Build**

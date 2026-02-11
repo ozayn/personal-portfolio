@@ -4,7 +4,7 @@
 
 ### **Development**
 ```bash
-npm run dev          # Start development server (localhost:3000)
+npm run dev          # Start development server (localhost:5002)
 npm run build        # Build for production
 npm run check        # TypeScript type checking
 npm start           # Start production server
@@ -39,7 +39,7 @@ NODE_ENV=development
 - `.env` - Environment variables (create this)
 
 ## 🌐 **URLs**
-- **Local**: http://localhost:3000
+- **Local**: http://localhost:5002
 - **Production**: https://ozayn.com
 - **Railway Dashboard**: https://railway.app
 
@@ -55,8 +55,8 @@ NODE_ENV=development
 
 ## 🛠️ **Troubleshooting**
 ```bash
-# Kill port 3000 if in use
-lsof -ti:3000 | xargs kill -9
+# Kill port 5002 if in use
+lsof -ti:5002 | xargs kill -9
 
 # Clean install
 rm -rf node_modules package-lock.json

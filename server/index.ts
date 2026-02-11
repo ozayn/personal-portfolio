@@ -7,6 +7,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Simple health check for platform monitors
+app.get("/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 // Serve attached assets (uploaded images)
 app.use('/attached_assets', express.static('attached_assets'));
 
@@ -64,8 +69,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Use Railway's PORT environment variable, fallback to 3000 for local development
-  const port = parseInt(process.env.PORT || "3000", 10);
+  // Use Railway's PORT environment variable, fallback to 5002 for local development
+  const port = parseInt(process.env.PORT || "5002", 10);
   server.listen(port, "0.0.0.0", () => {
     log(`serving on port ${port}`);
     log(`Environment: ${process.env.NODE_ENV}`);

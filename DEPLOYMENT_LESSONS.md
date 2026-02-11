@@ -22,7 +22,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 **Problem**: Server binding issues in different environments
 **Solution**: Use environment-aware binding:
 ```javascript
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5002;
 const host = process.env.NODE_ENV === "production" ? "0.0.0.0" : "127.0.0.1";
 ```
 
@@ -115,10 +115,10 @@ OPENAI_API_KEY=your-openai-api-key-here
 ## 🐛 Common Debugging Commands
 
 ```bash
-# Check what's running on port 3000
-lsof -i :3000
+# Check what's running on port 5002
+lsof -i :5002
 
-# Kill processes on port 3000
+# Kill processes on port 5002
 pkill -f "tsx server/index.ts"
 
 # Check git status

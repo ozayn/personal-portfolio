@@ -40,7 +40,7 @@ npm run dev
 ```
 
 ### 5. Access Your Website
-Open your browser and go to: **http://localhost:3000**
+Open your browser and go to: **http://localhost:5002**
 
 ## Available Scripts
 
@@ -110,7 +110,7 @@ The app uses these tables:
 - Check database connection string
 
 **3. Port Already in Use**
-- The app runs on port 3000 by default
+- The app runs on port 5002 by default
 - Kill existing processes: `pkill -f "tsx server/index.ts"`
 - Or change port in `server/index.ts`
 
@@ -126,7 +126,7 @@ The app uses these tables:
 
 ### Server Binding Issues
 If you get "ENOTSUP" errors:
-- The server is configured to bind to `127.0.0.1:3000`
+- The server is configured to bind to `127.0.0.1:5002`
 - This should work on most systems
 - If issues persist, check your network configuration
 
