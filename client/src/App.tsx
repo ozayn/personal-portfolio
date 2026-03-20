@@ -16,6 +16,10 @@ import BankCustomerChurnPredictionPage from "@/pages/bank-customer-churn-predict
 import PersonalLoanCampaignPage from "@/pages/personal-loan-campaign";
 import AdminPage from "@/pages/admin";
 import LoginPage from "@/pages/login";
+import PlannerPage from "@/pages/planner";
+import TasteGraphPage from "@/pages/tastegraph";
+import SignalMapPage from "@/pages/signalmap";
+import MemoNextPage from "@/pages/memonext";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -32,6 +36,10 @@ function Router() {
       <Route path="/credit-card-churn-prediction" component={CreditCardChurnPredictionPage} />
       <Route path="/bank-customer-churn-prediction" component={BankCustomerChurnPredictionPage} />
       <Route path="/personal-loan-campaign" component={PersonalLoanCampaignPage} />
+      <Route path="/planner" component={PlannerPage} />
+      <Route path="/tastegraph" component={TasteGraphPage} />
+      <Route path="/signalmap" component={SignalMapPage} />
+      <Route path="/memonext" component={MemoNextPage} />
       <Route path="/portfolio-manager" component={AdminPage} />
       <Route path="/photo-studio" component={LoginPage} />
       <Route component={NotFound} />

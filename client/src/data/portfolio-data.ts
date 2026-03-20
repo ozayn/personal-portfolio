@@ -141,6 +141,62 @@ export const projects = [
       "https://ozayn.github.io/images/project1/03_link_secretary_of_wcon_loglog.png",
       "https://ozayn.github.io/images/project1/degree_distribution_log_log_linear.png"
     ]
+  },
+  {
+    id: 145,
+    title: "Planner",
+    description: "A production web application for discovering and organizing cultural events across multiple cities, with AI-assisted extraction and Google Calendar integration.",
+    overview: "Built an end-to-end event discovery platform using Python, Flask, and PostgreSQL. Implemented web scraping, OCR/LLM-assisted extraction, relational schema design, deduplication, event curation workflows, and calendar export/integration features.",
+    technologies: ["Python", "Flask", "PostgreSQL", "OCR", "LLMs", "Web Scraping", "Google Calendar", "APIs"],
+    category: "business-analytics",
+    icon: "calendar",
+    githubUrl: "https://github.com/ozayn/planner",
+    presentationUrl: "https://github.com/ozayn/planner",
+    liveUrl: "https://planner.ozayn.com",
+    detailPageUrl: "/planner",
+    images: []
+  },
+  {
+    id: 146,
+    title: "TasteGraph",
+    description: "A personal taste analytics application that turns ratings and watch history into interactive visual insights about genres, countries, and viewing patterns.",
+    overview: "Built a clean, modern analytics experience for exploring entertainment preferences through structured ratings data, summary views, visual breakdowns, and taste-oriented insight modules. Emphasize product thinking, frontend polish, and data storytelling.",
+    technologies: ["Next.js", "TypeScript", "React", "PostgreSQL", "Data Visualization", "Analytics", "Tailwind"],
+    category: "exploratory-analysis",
+    icon: "bar-chart",
+    githubUrl: "https://github.com/ozayn/tastegraph",
+    presentationUrl: "https://github.com/ozayn/tastegraph",
+    liveUrl: "https://tastegraph.ozayn.com",
+    detailPageUrl: "/tastegraph",
+    images: []
+  },
+  {
+    id: 147,
+    title: "SignalMap",
+    description: "A research-style analytics platform for exploring economic, geopolitical, and engagement signals over time using transparent, observational studies.",
+    overview: "Built a platform using FastAPI, Next.js, and PostgreSQL to analyze time-varying signals with a snapshot-based, cache-first architecture. Includes time-series studies, event overlays, metadata, and reproducible signal pipelines while avoiding predictive or causal claims.",
+    technologies: ["FastAPI", "Next.js", "PostgreSQL", "Time Series", "Data Visualization", "APIs", "Railway"],
+    category: "exploratory-analysis",
+    icon: "chart-line",
+    githubUrl: "https://github.com/ozayn/signalmap",
+    presentationUrl: "https://github.com/ozayn/signalmap",
+    liveUrl: "https://signalmap.ozayn.com",
+    detailPageUrl: "/signalmap",
+    images: []
+  },
+  {
+    id: 148,
+    title: "MemoNext",
+    description: "An AI-assisted flashcard and study platform that turns notes, text, and web content into structured learning workflows.",
+    overview: "Designed a study platform with AI flashcard generation, spaced repetition, daily review queues, tutoring/explanations, and learning analytics. Position it as a product-focused learning system combining LLMs with learning science concepts.",
+    technologies: ["React", "TypeScript", "AI/LLMs", "Spaced Repetition", "Learning Analytics", "Flashcards", "Education"],
+    category: "nlp",
+    icon: "brain",
+    githubUrl: "https://github.com/ozayn/memonext",
+    presentationUrl: "https://github.com/ozayn/memonext",
+    liveUrl: "https://memonext.ozayn.com",
+    detailPageUrl: "/memonext",
+    images: []
   }
 ];
 

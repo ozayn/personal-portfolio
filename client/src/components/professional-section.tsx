@@ -19,12 +19,16 @@ import {
   GitBranch,
   TreePine,
   Eye,
-  Map
+  Map,
+  CalendarDays,
+  BarChart3
 } from "lucide-react";
 
 const getProjectIcon = (iconName: string) => {
   const icons = {
     'chart-line': TrendingUp,
+    'bar-chart': BarChart3,
+    'calendar': CalendarDays,
     'seedling': Sprout,
     'brain': Brain,
     'network-wired': GitBranch,
