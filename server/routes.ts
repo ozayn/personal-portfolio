@@ -15,9 +15,11 @@ declare global {
 }
 import sharp from "sharp";
 
-// Initialize OpenAI (only if API key is provided)
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+// Groq-backed query interpretation (only if API key is provided)
+const groqModel = "llama-3.1-8b-instant";
+const groq = process.env.GROQ_API_KEY ? new OpenAI({
+  apiKey: process.env.GROQ_API_KEY,
+  baseURL: "https://api.groq.com/openai/v1",
 }) : null;
 
 const upload = multer({
@@ -215,17 +217,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.send(svg);
   });
 
-  // AI-powered search analysis
+  // AI-powered search analysis (Groq-backed)
   app.post("/api/search-analyze", async (req, res) => {
     try {
       const { query } = req.body;
+      const trimmedQuery = typeof query === 'string' ? query.trim() : '';
       
-      if (!query || typeof query !== 'string') {
+      if (!trimmedQuery) {
         return res.status(400).json({ error: "Query is required" });
       }
 
-      // Check if OpenAI is available
-      if (!openai) {
+      // Check if Groq is available
+      if (!groq) {
         return res.status(503).json({ 
           error: "AI service not configured", 
           fallback: true,
@@ -260,42 +263,61 @@ export async function registerRoutes(app: Express): Promise<Server> {
       validRequests.push(now);
       global.rateLimitStore.set(key, validRequests);
 
-      // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
+      const completion = await groq.chat.completions.create({
+        model: groqModel,
+        temperature: 0.2,
         messages: [
           {
             role: "system",
-            content: `You are a photography portfolio search assistant. Analyze natural language queries and extract relevant search keywords for a photography portfolio.
+            content: `You are a photography portfolio search assistant. Given a natural language query, extract concise search signals for this photo collection.
 
-Available photo categories and themes:
-- Wedding Photography: wedding, bridal, elegance, romance, love, cake, bouquet, flower-girls, children, ceremony, celebration
-- Events Photography: festival, vintage, fashion, style, formal, elegant, parasol, group
-- Street Photography: street, candid, urban, summer, walking, documentary, life, childhood
-- Long Exposure Photography: seascape, waves, rocks, water, motion, nature, coastal, ethereal, dynamic, light-trails, cascading, flow, energy
-
-Return a JSON object with:
+Return a JSON object:
 {
   "keywords": ["keyword1", "keyword2", ...],
-  "intent": "brief description of what user is looking for",
+  "intent": "brief description of what the user is looking for",
   "categories": ["relevant", "categories"]
 }
 
-Focus on extracting emotional descriptors, technical terms, subject matter, and visual elements from the query.`
+Focus on photography-relevant signals:
+- Subjects (people, streets, architecture, nature, weddings, events, portraits)
+- Locations/contexts (city, travel, museum, festival, ceremony)
+- Moods/tones (romantic, candid, vibrant, calm, dramatic, vintage, night)
+- Colors/lighting (bright, colorful, monochrome, night, reflections)
+- Composition/styles (street, candid, portrait, landscape, architecture, long exposure, travel, action)
+- Events/types (wedding, festival, museum, performance, party)
+
+Keep keywords short and tag-ready.`
           },
           {
             role: "user",
-            content: query
+            content: trimmedQuery
           }
         ],
         response_format: { type: "json_object" },
         max_tokens: 300
       });
 
-      const analysis = JSON.parse(completion.choices[0].message.content || '{}');
-      res.json(analysis);
+      let parsed: any = {};
+      try {
+        parsed = JSON.parse(completion.choices[0].message.content || '{}');
+      } catch (parseError) {
+        console.error('Groq API error: failed to parse JSON', parseError);
+        return res.status(503).json({ 
+          error: "AI service temporarily unavailable", 
+          fallback: true,
+          message: "Using smart keyword search instead"
+        });
+      }
+
+      const normalized = {
+        keywords: Array.isArray(parsed.keywords) ? parsed.keywords : [],
+        intent: typeof parsed.intent === "string" ? parsed.intent : "",
+        categories: Array.isArray(parsed.categories) ? parsed.categories : [],
+      };
+
+      res.json(normalized);
     } catch (error: any) {
-      console.error('OpenAI API error:', error);
+      console.error('Groq API error:', error);
       
       // Check if it's a quota exceeded error
       if (error.status === 429 || error.message?.includes('quota') || error.message?.includes('rate limit')) {

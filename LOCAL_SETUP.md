@@ -22,8 +22,8 @@ DATABASE_URL=your_neon_connection_string_here
 # Session Management
 SESSION_SECRET=your-super-secret-session-key-here
 
-# OpenAI (optional - for AI features)
-OPENAI_API_KEY=your_openai_api_key_here
+# Groq (optional - for AI photo search)
+GROQ_API_KEY=your_groq_api_key_here
 
 # Environment
 NODE_ENV=development
