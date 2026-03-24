@@ -41,7 +41,7 @@ const getProjectIcon = (iconName: string) => {
   return icons[iconName as keyof typeof icons] || TrendingUp;
 };
 
-const getProjectGradient = (category: string) => {
+const getProjectGradient = (category: string, index: number, seed: number) => {
   const gradients = {
     'nlp': 'from-blue-300 to-blue-400',
     'computer-vision': 'from-emerald-300 to-emerald-400',
@@ -53,7 +53,32 @@ const getProjectGradient = (category: string) => {
     'business-analytics': 'from-pink-300 to-pink-400',
     'graph-theory': 'from-red-300 to-red-400',
   };
-  return gradients[category as keyof typeof gradients] || 'from-slate-400 to-slate-500';
+
+  // Expanded palette to minimize neighbors sharing the same tone
+  const palette = [
+    'from-blue-300 to-blue-400',
+    'from-emerald-300 to-emerald-400',
+    'from-violet-300 to-violet-400',
+    'from-orange-300 to-orange-400',
+    'from-teal-300 to-teal-400',
+    'from-indigo-300 to-indigo-400',
+    'from-yellow-300 to-yellow-400',
+    'from-pink-300 to-pink-400',
+    'from-red-300 to-red-400',
+    'from-slate-400 to-slate-500',
+    'from-cyan-300 to-cyan-400',
+    'from-amber-300 to-amber-400',
+    'from-lime-300 to-lime-400',
+    'from-fuchsia-300 to-fuchsia-400',
+    'from-rose-300 to-rose-400',
+  ];
+
+  const base = gradients[category as keyof typeof gradients] || 'from-slate-400 to-slate-500';
+  const start = palette.indexOf(base) >= 0 ? palette.indexOf(base) : palette.length - 1;
+
+  // Deterministic shuffle using index and seed (project id) to avoid repetition across renders
+  const offset = (index * 3 + seed) % palette.length;
+  return palette[(start + offset) % palette.length];
 };
 
 export default function ProfessionalSection() {
@@ -180,9 +205,9 @@ export default function ProfessionalSection() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => {
+            {filteredProjects.map((project, index) => {
               const IconComponent = getProjectIcon(project.icon);
-              const gradient = getProjectGradient(project.category);
+              const gradient = getProjectGradient(project.category, index, project.id || index);
               
               return (
                 <Card 
